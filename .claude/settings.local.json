@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l C:/xampp/htdocs/studyflow/pages/*.php C:/xampp/htdocs/studyflow/api/*.php)",
+      "Bash(grep -A 20 \"CREATE TABLE \\\\`users\\\\`\" C:/xampp/htdocs/studyflow/productivity_hub.sql)",
+      "WebFetch(domain:openrouter.ai)",
+      "Bash(grep -rn \"CSRF\\\\|csrf\\\\|nonce\\\\|token\" /c/xampp/htdocs/studyflow/*.php /c/xampp/htdocs/studyflow/pages/*.php)",
+      "Bash(grep -rn '$_GET\\\\|$_POST' '/c/xampp/htdocs/studyflow/pages/*.php')",
+      "Bash(grep -rn \"header.*Location\" /c/xampp/htdocs/studyflow/pages/*.php)",
+      "Bash(not exist:*)"
+    ]
+  }
+}
