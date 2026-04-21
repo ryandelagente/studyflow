@@ -9,10 +9,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 require_once(__DIR__ . '/../config.php');
 
 // --- Initialization ---
-$error_message = '';
+$error_message   = '';
 $success_message = '';
 $user_id   = (int)$_SESSION['id'];
 $tenant_id = (int)($_SESSION['tenant_id'] ?? 0);
+$tasks     = [];   // always initialised so goto render never hits an undefined variable
 
 // --- Database Connection Check ---
 if (!$link) {
@@ -111,11 +112,9 @@ if ($link && $_SERVER["REQUEST_METHOD"] == "POST") {
 $success_message = $success_message ?: flash_get('success');
 $error_message   = $error_message   ?: flash_get('error');
 
-
-// READ: Fetch all tasks
-$tasks = [];
+render:
+// READ: Fetch all tasks — runs even after a CSRF failure so the list is always shown
 if ($link) {
-    // Fetch the new description field
     $sql = "SELECT id, title, description, priority, finish_by, is_completed FROM tasks WHERE user_id = ? AND tenant_id = ? ORDER BY created_at DESC";
     if ($stmt = mysqli_prepare($link, $sql)) {
         mysqli_stmt_bind_param($stmt, "ii", $user_id, $tenant_id);
@@ -128,7 +127,6 @@ if ($link) {
     }
 }
 
-render:
 require_once(BASE_PATH . '/partials/header.php');
 ?>
 <style>
@@ -173,6 +171,7 @@ require_once(BASE_PATH . '/partials/header.php');
                         <div class="task-header flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50" onclick="toggleTaskView(this)">
                             <div class="flex items-center">
                                 <form method="POST" class="mr-4" onclick="event.stopPropagation();">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
                                     <input type="checkbox" name="is_completed" <?php echo $task['is_completed'] ? 'checked' : ''; ?> onchange="this.form.submit()" class="h-5 w-5 rounded border-gray-300 text-purple-600 focus:ring-purple-500">
                                     <input type="hidden" name="toggle_task" value="1">
@@ -197,6 +196,7 @@ require_once(BASE_PATH . '/partials/header.php');
                                 </span>
                                 <button onclick='openEditModal(<?php echo htmlspecialchars(json_encode($task)); ?>)' class="text-gray-400 hover:text-blue-600 p-1"><i data-lucide="pencil" class="w-4 h-4"></i></button>
                                 <form method="POST" onsubmit="return confirm('Are you sure?');" class="inline">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
                                     <button type="submit" name="delete_task" class="text-gray-400 hover:text-red-600 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                 </form>
@@ -393,6 +393,7 @@ require_once(BASE_PATH . '/partials/header.php');
         <div id="ai-todos-preview" class="hidden">
             <h3 class="font-semibold text-gray-700 mb-2">Select tasks to add</h3>
             <form id="ai-todos-save-form" method="POST">
+                <?php echo csrf_field(); ?>
                 <div id="ai-todos-list" class="space-y-2 mb-4 max-h-64 overflow-y-auto"></div>
                 <input type="hidden" name="selected_tasks" id="ai-todos-selected">
                 <input type="hidden" id="ai-todos-data" value="[]">

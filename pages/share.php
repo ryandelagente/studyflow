@@ -28,6 +28,7 @@ require_once(BASE_PATH . '/partials/header.php');
 
         <div id="file-form-section">
             <form action="<?php echo BASE_URL; ?>/pages/resources.php" method="post" enctype="multipart/form-data">
+                <?php echo csrf_field(); ?>
                 <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center transition-colors duration-200">
                     <div id="upload-prompt">
                         <p class="text-gray-500 mb-4">Drag and drop your file here</p>
@@ -50,6 +51,7 @@ require_once(BASE_PATH . '/partials/header.php');
         
         <div id="url-form-section" class="hidden">
             <form action="<?php echo BASE_URL; ?>/pages/notes.php" method="POST" class="space-y-4">
+                <?php echo csrf_field(); ?>
                 <input type="hidden" name="add_note_from_share" value="1">
                 <input type="hidden" name="note_type" value="url">
                 <div>
@@ -68,6 +70,7 @@ require_once(BASE_PATH . '/partials/header.php');
 
         <div id="text-form-section" class="hidden">
              <form action="<?php echo BASE_URL; ?>/pages/notes.php" method="POST" class="space-y-4">
+                <?php echo csrf_field(); ?>
                 <input type="hidden" name="add_note_from_share" value="1">
                 <input type="hidden" name="note_type" value="text">
                 <div>

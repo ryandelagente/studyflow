@@ -7,7 +7,23 @@
       "Bash(grep -rn \"CSRF\\\\|csrf\\\\|nonce\\\\|token\" /c/xampp/htdocs/studyflow/*.php /c/xampp/htdocs/studyflow/pages/*.php)",
       "Bash(grep -rn '$_GET\\\\|$_POST' '/c/xampp/htdocs/studyflow/pages/*.php')",
       "Bash(grep -rn \"header.*Location\" /c/xampp/htdocs/studyflow/pages/*.php)",
-      "Bash(not exist:*)"
+      "Bash(not exist:*)",
+      "Bash(php -l pages/api-settings.php)",
+      "Bash(php -l pages/billing.php)",
+      "Bash(php -l pages/users.php)",
+      "Bash(php -l partials/sidebar.php)",
+      "Bash(php -l api/get-free-models.php)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(php -l landing.php)",
+      "Bash(php -l C:\\\\xampp\\\\htdocs\\\\studyflow\\\\pages\\\\todos.php)",
+      "Bash(cd /d C:\\\\xampp\\\\htdocs\\\\studyflow)",
+      "Bash(php -l pages/todos.php)",
+      "Bash(php -l \"C:/xampp/htdocs/studyflow/pages/todos.php\")",
+      "Bash(php -l \"C:/xampp/htdocs/studyflow/pages/study-goals.php\")",
+      "Bash(sed -n '228,236p' C:/xampp/htdocs/studyflow/pages/flashcards.php)",
+      "Bash(sed -n '490,498p' C:/xampp/htdocs/studyflow/pages/flashcards.php)",
+      "Bash(sed -n '165,172p' C:/xampp/htdocs/studyflow/pages/resources.php)",
+      "Bash(sed -n '222,260p' C:/xampp/htdocs/studyflow/pages/calendar.php)"
     ]
   }
 }

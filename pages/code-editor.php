@@ -106,13 +106,9 @@ require_once(BASE_PATH . '/partials/header.php');
                        font-size:.68rem; border-radius:.25rem; border:1px solid #45475a;
                        background:#313244; color:#a6e3a1; cursor:pointer; width:100%; text-align:center; }
 .ai-msg .insert-btn:hover { background:#45475a; }
-#ai-actions-row    { display:flex; gap:.3rem; padding:.4rem .75rem; flex-wrap:wrap;
-                     flex-shrink:0; border-bottom:1px solid #313244; }
-.ai-pill           { padding:.2rem .6rem; border-radius:1rem; font-size:.68rem; font-weight:600;
-                     cursor:pointer; border:1px solid #45475a; color:#cdd6f4; background:transparent; }
-.ai-pill:hover, .ai-pill.active { background:#cba6f7; color:#1e1e2e; border-color:#cba6f7; }
 #ai-input-row      { display:flex; flex-direction:column; gap:.4rem; padding:.5rem .75rem;
-                     border-top:1px solid #313244; flex-shrink:0; }
+                     border-top:1px solid #313244; flex-shrink:0;
+                     background:#181825; position:sticky; bottom:0; }
 #ai-input          { width:100%; background:#11111b; border:1px solid #45475a; border-radius:.4rem;
                      color:#cdd6f4; padding:.45rem .6rem; font-size:.78rem; resize:none;
                      outline:none; font-family:inherit; line-height:1.4; box-sizing:border-box;
@@ -123,6 +119,58 @@ require_once(BASE_PATH . '/partials/header.php');
                      border:none; background:#cba6f7; color:#1e1e2e; cursor:pointer; }
 #ai-send:hover     { background:#b4befe; }
 #ai-send:disabled  { opacity:.5; cursor:not-allowed; }
+
+/* ── Agent mode ─────────────────────────────── */
+#ai-mode-toggle    { display:flex; border:1px solid #45475a; border-radius:.3rem;
+                     overflow:hidden; flex-shrink:0; }
+.ai-mode-btn       { padding:.18rem .55rem; font-size:.68rem; font-weight:700;
+                     border:none; background:transparent; color:#6c7086; cursor:pointer; }
+.ai-mode-btn:hover { color:#cdd6f4; }
+.ai-mode-btn.active{ background:#cba6f7; color:#1e1e2e; }
+#agent-ctx-bar     { display:none; align-items:center; gap:.5rem; padding:.35rem .75rem;
+                     background:#11111b; border-bottom:1px solid #313244; flex-shrink:0; }
+#agent-ctx-label   { font-size:.71rem; color:#6c7086; flex:1; }
+/* Proposed changes block */
+.changes-wrap      { border:1px solid #45475a; border-radius:.4rem; overflow:hidden;
+                     margin:.3rem 0; background:#11111b; flex-shrink:0; }
+.changes-header    { display:flex; align-items:center; gap:.5rem; padding:.4rem .65rem;
+                     background:#181825; border-bottom:1px solid #313244; }
+.changes-title     { font-size:.72rem; font-weight:700; color:#cba6f7; flex:1; }
+.btn-apply-all     { padding:.2rem .65rem; font-size:.68rem; font-weight:700;
+                     border:none; border-radius:.3rem; background:#a6e3a1;
+                     color:#1e1e2e; cursor:pointer; white-space:nowrap; }
+.btn-apply-all:hover  { background:#94e2d5; }
+.btn-apply-all:disabled { opacity:.5; cursor:not-allowed; }
+.change-row        { display:flex; align-items:center; gap:.4rem; padding:.32rem .65rem;
+                     border-top:1px solid #1e1e2e; font-size:.73rem; }
+.change-action-icon{ font-size:.8rem; flex-shrink:0; width:1rem; text-align:center; }
+.change-path       { flex:1; color:#cdd6f4; overflow:hidden; text-overflow:ellipsis;
+                     white-space:nowrap; font-family:monospace; font-size:.71rem; }
+.change-lines      { color:#6c7086; font-size:.67rem; flex-shrink:0; }
+.btn-preview-chg, .btn-apply-chg {
+                     padding:.15rem .38rem; font-size:.65rem; font-weight:600;
+                     border:1px solid #45475a; border-radius:.25rem;
+                     background:transparent; color:#cdd6f4; cursor:pointer; flex-shrink:0; }
+.btn-preview-chg:hover { background:#313244; }
+.btn-apply-chg     { background:#313244; }
+.btn-apply-chg:hover { background:#45475a; }
+.btn-apply-chg.done{ background:#1e3a2e; color:#a6e3a1; border-color:#a6e3a1; cursor:default; }
+.btn-apply-chg.err { background:#3a1e1e; color:#f38ba8; border-color:#f38ba8; cursor:default; }
+/* Preview modal */
+#preview-modal     { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7);
+                     z-index:400; align-items:center; justify-content:center; }
+#preview-modal .modal-box { width:min(900px,96vw); max-height:88vh;
+                             display:flex; flex-direction:column; }
+#preview-header    { display:flex; align-items:center; gap:.5rem; padding:.6rem 1rem;
+                     border-bottom:1px solid #313244; flex-shrink:0; }
+#preview-filepath  { flex:1; font-size:.78rem; font-weight:700; color:#cba6f7;
+                     font-family:monospace; }
+#preview-code      { flex:1; overflow:auto; margin:0; padding:.75rem 1rem;
+                     background:#11111b; color:#cdd6f4; font-family:'Fira Code',monospace;
+                     font-size:.75rem; line-height:1.55; white-space:pre;
+                     tab-size:4; }
+#preview-code::-webkit-scrollbar { width:6px; height:6px; }
+#preview-code::-webkit-scrollbar-thumb { background:#45475a; }
 
 /* ── Toolbar buttons ────────────────────────── */
 .tb-btn            { display:inline-flex; align-items:center; gap:.3rem; padding:.3rem .6rem;
@@ -204,6 +252,15 @@ require_once(BASE_PATH . '/partials/header.php');
 ::-webkit-scrollbar       { width:5px; height:5px; }
 ::-webkit-scrollbar-track { background:#1e1e2e; }
 ::-webkit-scrollbar-thumb { background:#45475a; border-radius:3px; }
+
+/* ── Viewport lock — code editor must fill exactly the screen height ── */
+/* Override the site-wide min-h-screen so the flex chain gets definite heights */
+html, body                { height:100vh !important; overflow:hidden !important; }
+body > .flex              { height:100vh !important; min-height:unset !important;
+                            overflow:hidden !important; }
+body > .flex > .flex-1    { height:100vh !important; overflow:hidden !important;
+                            display:flex !important; flex-direction:column !important; }
+body > .flex > .flex-1 > header { flex-shrink:0 !important; }
 </style>
 
 <!-- ════════════════════════════════════════════
@@ -301,17 +358,18 @@ require_once(BASE_PATH . '/partials/header.php');
       <div id="ai-bottom-header">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#cba6f7" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         <span>AI Coding Assistant</span>
+        <div id="ai-mode-toggle">
+          <button class="ai-mode-btn active" data-mode="chat">Chat</button>
+          <button class="ai-mode-btn" data-mode="agent">Agent</button>
+        </div>
         <div style="display:flex;gap:.3rem;align-items:center;">
           <button class="tb-btn" id="btn-ai-clear" style="padding:.15rem .45rem;font-size:.68rem;" title="Clear chat">Clear</button>
           <button class="tb-btn" id="btn-ai-close" style="padding:.15rem .35rem;" title="Close AI panel">✕</button>
         </div>
       </div>
-      <div id="ai-actions-row">
-        <button class="ai-pill" data-action="explain">Explain</button>
-        <button class="ai-pill" data-action="fix">Fix Bugs</button>
-        <button class="ai-pill" data-action="review">Review</button>
-        <button class="ai-pill" data-action="complete">Complete</button>
-        <button class="ai-pill" data-action="chat">Chat</button>
+      <div id="agent-ctx-bar">
+        <span id="agent-ctx-label">No workspace files loaded</span>
+        <button class="tb-btn" id="btn-load-ctx" style="padding:.18rem .5rem;font-size:.68rem;flex-shrink:0;">Load Files</button>
       </div>
       <div id="ai-messages">
         <div class="ai-msg assistant">Hi! I can help you write, explain, fix, or review code. Open a file and use the quick actions, or just ask me anything.</div>
@@ -325,6 +383,18 @@ require_once(BASE_PATH . '/partials/header.php');
     </div><!-- end ai-bottom -->
 
   </div><!-- end editor-panels -->
+
+  <!-- ── File preview modal (Agent mode) ──────── -->
+  <div id="preview-modal">
+    <div class="modal-box" style="display:flex;flex-direction:column;max-height:88vh;overflow:hidden;width:min(900px,96vw);">
+      <div id="preview-header">
+        <span id="preview-filepath"></span>
+        <button id="preview-close" style="background:none;border:none;color:#6c7086;font-size:1.1rem;cursor:pointer;padding:.2rem .5rem;">✕</button>
+      </div>
+      <pre id="preview-code"></pre>
+    </div>
+  </div>
+
 </div><!-- end editor-root -->
 
 <!-- ── Hidden file inputs ───────────────────── -->
@@ -387,6 +457,10 @@ require_once(BASE_PATH . '/partials/header.php');
   </div>
 </div>
 
+<!-- Lucide must load BEFORE Monaco loader — Monaco's AMD require hijacks UMD bundles loaded after it -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>if(window.lucide) lucide.createIcons();</script>
+
 <!-- ══════════════════════════════════════════════
      Monaco Editor (CDN)
 ══════════════════════════════════════════════ -->
@@ -410,6 +484,9 @@ let ctxTarget   = null;          // { path, type } for right-click menu
 let aiOpen      = false;
 let currentWs   = null;          // { workspace, label } from server
 let aiAction    = 'chat';
+let agentMode   = false;
+let wsContext   = null;    // [{path, content}] loaded from read-workspace.php
+let wsContextBytes = 0;
 let pendingFile = null;          // file to open after Monaco loads
 
 /* ── Language / icon maps ────────────────────── */
@@ -931,21 +1008,12 @@ aiInputEl.addEventListener('keydown', (e) => {
 aiInputEl.addEventListener('keyup',    (e) => { e.stopPropagation(); });
 aiInputEl.addEventListener('keypress', (e) => { e.stopPropagation(); });
 
-// AI quick action pills
-document.querySelectorAll('.ai-pill').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.ai-pill').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        aiAction = btn.dataset.action;
-        if (!aiOpen) openAI();
-        if (aiAction !== 'chat') sendToAI();
-        else document.getElementById('ai-input').focus();
-    });
-});
+// (quick-action pills removed)
 
 document.getElementById('ai-send').addEventListener('click', sendToAI);
 
 async function sendToAI() {
+    if (agentMode) { await sendAgentTask(); return; }
     const question = document.getElementById('ai-input').value.trim();
     const code     = editor ? editor.getValue() : '';
     const selected = editor ? (editor.getModel()?.getValueInRange(editor.getSelection()) || '') : '';
@@ -989,9 +1057,6 @@ async function sendToAI() {
         }
     }
 
-    // Reset pill
-    document.querySelectorAll('.ai-pill').forEach(b => b.classList.remove('active'));
-    document.querySelector('.ai-pill[data-action="chat"]').classList.add('active');
     aiAction = 'chat';
 }
 
@@ -1012,6 +1077,210 @@ function renderMd(html) {
         .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
         .replace(/\n/g, '<br>');
 }
+
+/* ══════════════════════════════════════════════
+   AGENT MODE
+══════════════════════════════════════════════ */
+// ── Mode toggle buttons ───────────────────────
+document.querySelectorAll('.ai-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+});
+
+function switchMode(mode) {
+    agentMode = (mode === 'agent');
+    document.querySelectorAll('.ai-mode-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.mode === mode);
+    });
+    const ctxBar = document.getElementById('agent-ctx-bar');
+    ctxBar.style.display = agentMode ? 'flex' : 'none';
+    document.getElementById('ai-input').placeholder = agentMode
+        ? 'Describe what to build / fix / refactor… (Ctrl+Enter)'
+        : 'Ask about the code… (Ctrl+Enter to send)';
+}
+
+// ── Load workspace context ────────────────────
+document.getElementById('btn-load-ctx').addEventListener('click', loadWorkspaceContext);
+
+async function loadWorkspaceContext() {
+    const label = document.getElementById('agent-ctx-label');
+    const btn   = document.getElementById('btn-load-ctx');
+    label.textContent = '⟳ Reading workspace…';
+    btn.disabled = true;
+    const d = await api('/api/editor/read-workspace.php');
+    btn.disabled = false;
+    if (d.error) {
+        label.textContent = '✗ ' + d.error;
+        return;
+    }
+    wsContext      = d.files;
+    wsContextBytes = d.total_bytes;
+    const kb = (wsContextBytes / 1024).toFixed(1);
+    label.textContent = `${d.file_count} files · ${kb} KB${d.truncated ? ' (truncated)' : ''}`;
+    toast(`Workspace loaded: ${d.file_count} files`);
+}
+
+// ── Send task to agent ────────────────────────
+async function sendAgentTask() {
+    const task = document.getElementById('ai-input').value.trim();
+    if (!task) { toast('Describe the task first', 'warn'); return; }
+    if (!wsContext) {
+        toast('Click "Load Files" to load the workspace first', 'warn');
+        return;
+    }
+
+    if (!aiOpen) openAI();
+    appendMsg(task, 'user');
+    document.getElementById('ai-input').value = '';
+    document.getElementById('ai-send').disabled = true;
+
+    const thinking = appendMsg('⟳ Agent is thinking… (this may take 30–60 s)', 'assistant');
+    const res = await api('/api/editor/ai-agent.php', {
+        method: 'POST', headers: JHDRS(),
+        body: JSON.stringify({ task, context: wsContext }),
+    });
+    thinking.remove();
+    document.getElementById('ai-send').disabled = false;
+
+    if (res.error) {
+        appendMsg('⚠ ' + res.error, 'assistant');
+        return;
+    }
+
+    if (res.message) appendMsg(res.message, 'assistant', true);
+    if (res.errors?.length) {
+        appendMsg('⚠ Parse warnings:\n' + res.errors.join('\n'), 'assistant');
+    }
+    if (res.changes?.length) {
+        renderProposedChanges(res.changes);
+    } else {
+        appendMsg('ℹ No file changes were proposed.', 'assistant');
+    }
+}
+
+// ── Render proposed changes block ────────────
+function renderProposedChanges(changes) {
+    const msgs = document.getElementById('ai-messages');
+
+    const wrap = document.createElement('div');
+    wrap.className = 'changes-wrap';
+
+    const hdr = document.createElement('div');
+    hdr.className = 'changes-header';
+    hdr.innerHTML = `<span class="changes-title">📦 ${changes.length} file change${changes.length !== 1 ? 's' : ''} proposed</span>`;
+
+    const applyBtns = [];
+    const applyAllBtn = document.createElement('button');
+    applyAllBtn.className = 'btn-apply-all';
+    applyAllBtn.textContent = 'Apply All';
+    applyAllBtn.addEventListener('click', () => applyAllChanges(changes, applyAllBtn, applyBtns));
+    hdr.appendChild(applyAllBtn);
+    wrap.appendChild(hdr);
+
+    changes.forEach(ch => {
+        const row = document.createElement('div');
+        row.className = 'change-row';
+
+        const actionIcon  = { create:'✚', edit:'✎', delete:'✕' }[ch.action] || '?';
+        const actionColor = { create:'#a6e3a1', edit:'#89b4fa', delete:'#f38ba8' }[ch.action] || '#cdd6f4';
+        const lines = ch.content ? ch.content.split('\n').length : 0;
+
+        row.innerHTML = `
+            <span class="change-action-icon" style="color:${actionColor};">${actionIcon}</span>
+            <span class="change-path" title="${esc(ch.path)}">${esc(ch.path)}</span>
+            ${lines > 0 ? `<span class="change-lines">${lines}L</span>` : ''}
+        `;
+
+        if (ch.action !== 'delete' && ch.content) {
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'btn-preview-chg';
+            prevBtn.textContent = 'Preview';
+            prevBtn.addEventListener('click', () => previewChange(ch));
+            row.appendChild(prevBtn);
+        }
+
+        const applyBtn = document.createElement('button');
+        applyBtn.className = 'btn-apply-chg';
+        applyBtn.textContent = 'Apply';
+        applyBtn.addEventListener('click', () => applySingleChange(ch, applyBtn));
+        row.appendChild(applyBtn);
+        applyBtns.push(applyBtn);
+
+        wrap.appendChild(row);
+    });
+
+    msgs.appendChild(wrap);
+    msgs.scrollTop = msgs.scrollHeight;
+}
+
+// ── Apply a single change ─────────────────────
+async function applySingleChange(ch, btn) {
+    if (btn.classList.contains('done') || btn.classList.contains('err')) return;
+    btn.disabled = true;
+    btn.textContent = '⟳';
+
+    let res;
+    if (ch.action === 'delete') {
+        res = await api('/api/editor/delete.php', {
+            method: 'POST', headers: JHDRS(),
+            body: JSON.stringify({ path: ch.path }),
+        });
+    } else {
+        res = await api('/api/editor/save-file.php', {
+            method: 'POST', headers: JHDRS(),
+            body: JSON.stringify({ path: ch.path, content: ch.content }),
+        });
+    }
+
+    if (res.success) {
+        btn.classList.add('done'); btn.textContent = '✓ Done';
+        // Update open editor tab if it has this file
+        const tab = openTabs.find(t => t.path === ch.path);
+        if (tab && tab.model && ch.content != null) {
+            tab.model.setValue(ch.content);
+            tab.dirty = false; tab.content = ch.content;
+            renderTabs(); updateSaveIndicator(tab);
+        }
+        // Keep wsContext in sync
+        if (wsContext && ch.content != null) {
+            const fc = wsContext.find(f => f.path === ch.path);
+            if (fc) fc.content = ch.content;
+            else wsContext.push({ path: ch.path, content: ch.content });
+        }
+        if (ch.action === 'create' || ch.action === 'delete') refreshTree();
+        toast((ch.action === 'delete' ? 'Deleted' : 'Saved') + ': ' + ch.path.split('/').pop());
+    } else {
+        btn.classList.add('err'); btn.textContent = '✗ Failed';
+        btn.disabled = false;
+        toast(res.error || 'Apply failed', 'err');
+    }
+}
+
+async function applyAllChanges(changes, applyAllBtn, applyBtns) {
+    applyAllBtn.disabled = true;
+    applyAllBtn.textContent = 'Applying…';
+    let ok = 0, fail = 0;
+    for (let i = 0; i < changes.length; i++) {
+        const btn = applyBtns[i];
+        if (btn.classList.contains('done')) { ok++; continue; }
+        await applySingleChange(changes[i], btn);
+        if (btn.classList.contains('done')) ok++; else fail++;
+    }
+    applyAllBtn.textContent = fail ? `Done (${fail} failed)` : '✓ All Applied';
+}
+
+// ── Preview a proposed change ─────────────────
+function previewChange(ch) {
+    document.getElementById('preview-filepath').textContent = ch.path;
+    document.getElementById('preview-code').textContent = ch.content || '';
+    document.getElementById('preview-modal').style.display = 'flex';
+}
+document.getElementById('preview-close').addEventListener('click', () => {
+    document.getElementById('preview-modal').style.display = 'none';
+});
+document.getElementById('preview-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('preview-modal'))
+        document.getElementById('preview-modal').style.display = 'none';
+});
 
 /* ══════════════════════════════════════════════
    RESIZE HANDLE (drag left/right to widen AI panel)
@@ -1165,8 +1434,6 @@ refreshTree();
 </div><!-- close .flex-1.flex-col from header.php -->
 </div><!-- close .flex.min-h-screen from header.php -->
 
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>lucide.createIcons();</script>
 <script src="<?php echo BASE_URL; ?>/assets/js/main.js"></script>
 </body>
 </html>

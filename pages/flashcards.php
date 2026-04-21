@@ -229,6 +229,7 @@ require_once(BASE_PATH . '/partials/header.php');
                             <i data-lucide="settings-2" class="w-5 h-5"></i>
                         </button>
                         <form method="POST" action="flashcards.php" onsubmit="return confirm('Are you sure? This will delete the collection and all cards inside it.');" class="m-0">
+                            <?php echo csrf_field(); ?>
                             <input type="hidden" name="collection_id" value="<?php echo $collection['id']; ?>">
                             <button type="submit" name="delete_collection" class="w-10 h-10 flex items-center justify-center bg-red-50 text-red-500 rounded-lg hover:bg-red-100 shrink-0">
                                 <i data-lucide="trash-2" class="w-5 h-5"></i>
@@ -491,6 +492,7 @@ require_once(BASE_PATH . '/partials/header.php');
             <h3 class="font-semibold text-gray-700 mb-2">Preview</h3>
             <div id="ai-gen-preview-list" class="space-y-2 mb-4 max-h-60 overflow-y-auto"></div>
             <form method="POST">
+                <?php echo csrf_field(); ?>
                 <input type="hidden" name="collection_id" id="ai_gen_collection_id">
                 <input type="hidden" name="cards_json" id="ai-gen-cards-json">
                 <div class="flex justify-end">

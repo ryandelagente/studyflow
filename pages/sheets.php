@@ -156,6 +156,7 @@ require_once(BASE_PATH . '/partials/header.php');
     <div class="flex justify-between items-center mb-8">
         <div><h2 class="text-2xl font-bold">Spreadsheets</h2></div>
         <form method="POST" action="sheets.php">
+            <?php echo csrf_field(); ?>
              <button type="submit" name="add_sheet" class="bg-purple-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-purple-700">New Spreadsheet</button>
         </form>
     </div>
@@ -194,6 +195,7 @@ require_once(BASE_PATH . '/partials/header.php');
                                         <div class="py-1">
                                             <a href="sheets.php?action=edit&id=<?php echo $sheet['id']; ?>" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
                                             <form method="POST" action="sheets.php" onsubmit="return confirm('Are you sure you want to delete this spreadsheet?');" class="w-full">
+                                                <?php echo csrf_field(); ?>
                                                 <input type="hidden" name="sheet_id" value="<?php echo $sheet['id']; ?>">
                                                 <button type="submit" name="delete_sheet" class="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-50">Delete</button>
                                             </form>

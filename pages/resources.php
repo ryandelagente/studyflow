@@ -166,6 +166,7 @@ require_once(BASE_PATH . '/partials/header.php');
                             <td class="p-3 text-gray-600"><?php echo date('M d, Y', $resource['created']); ?></td>
                             <td class="p-3 text-right">
                                 <form method="POST" class="inline-block" onsubmit="return confirm('Are you sure?');">
+                                    <?php echo csrf_field(); ?>
                                     <input type="hidden" name="file_name" value="<?php echo htmlspecialchars($resource['name']); ?>">
                                     <button type="submit" name="delete_file" class="text-gray-400 hover:text-red-500 p-1"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                                 </form>

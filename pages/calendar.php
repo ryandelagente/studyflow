@@ -109,7 +109,11 @@ if (!isset($link) || !$link) {
         }
     }
 
-    // --- READ (Fetch events for the current week) ---
+}
+
+render:
+// --- READ (Fetch events for the current week) ---
+if (isset($link) && $link) {
     $sql = "SELECT id, title, description, start_time, end_time FROM events WHERE user_id = ? AND tenant_id = ? AND start_time <= ? AND end_time >= ? ORDER BY start_time ASC";
     if ($stmt = mysqli_prepare($link, $sql)) {
         mysqli_stmt_bind_param($stmt, "iiss", $user_id, $tenant_id, $week_end_str, $week_start_str);
@@ -121,8 +125,6 @@ if (!isset($link) || !$link) {
         mysqli_stmt_close($stmt);
     }
 }
-
-render:
 require_once(BASE_PATH . '/partials/header.php');
 ?>
 
@@ -223,6 +225,7 @@ require_once(BASE_PATH . '/partials/header.php');
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         <h3 class="text-2xl font-bold mb-6">Add New Event</h3>
         <form action="calendar.php?week=<?php echo $target_date->format('Y-m-d'); ?>" method="post">
+            <?php echo csrf_field(); ?>
             <div class="mb-4">
                 <label class="block text-sm font-medium">Title</label>
                 <input type="text" name="title" class="mt-1 block w-full border border-gray-300 rounded-md p-2" required>
@@ -252,6 +255,7 @@ require_once(BASE_PATH . '/partials/header.php');
     <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg">
         <h3 class="text-2xl font-bold mb-6">Edit Event</h3>
         <form action="calendar.php?week=<?php echo $target_date->format('Y-m-d'); ?>" method="post">
+            <?php echo csrf_field(); ?>
             <input type="hidden" name="event_id" id="edit_event_id">
             <div class="mb-4">
                 <label class="block text-sm font-medium">Title</label>

@@ -161,19 +161,21 @@ if (!$db_error && $_SERVER["REQUEST_METHOD"] == "POST") {
 // Handle success messages
 if (isset($_GET['success'])) {
     $messages = [
-        'goal_added' => 'Goal added successfully.',
+        'goal_added'   => 'Goal added successfully.',
         'goal_updated' => 'Goal updated successfully.',
         'goal_deleted' => 'Goal deleted successfully.',
-        'cat_added' => 'Category added successfully.',
-        'cat_updated' => 'Category updated successfully.',
-        'cat_deleted' => 'Category deleted successfully.'
+        'cat_added'    => 'Category added successfully.',
+        'cat_updated'  => 'Category updated successfully.',
+        'cat_deleted'  => 'Category deleted successfully.',
+        'goals_added'  => 'AI-generated goals added successfully.',
     ];
     $success_message = $messages[$_GET['success']] ?? 'Action successful.';
 }
 
-// --- READ DATA ---
+// --- RENDER PAGE ---
+render:
+// READ DATA — runs after label so data is always available even after goto
 if (!$db_error && $link) {
-    // Fetch all categories for the dropdowns
     $sql_cat = "SELECT id, name FROM goal_categories WHERE user_id = ? ORDER BY name ASC";
     if ($stmt_cat = mysqli_prepare($link, $sql_cat)) {
         mysqli_stmt_bind_param($stmt_cat, "i", $user_id);
@@ -182,8 +184,7 @@ if (!$db_error && $link) {
         while ($row = mysqli_fetch_assoc($result)) { $categories[] = $row; }
         mysqli_stmt_close($stmt_cat);
     }
-    
-    // Fetch all study goals
+
     $sql_goals = "SELECT id, title, description, category, finish_by, is_completed, created_at FROM study_goals WHERE user_id = ? AND tenant_id = ? ORDER BY created_at DESC";
     if ($stmt_goals = mysqli_prepare($link, $sql_goals)) {
         mysqli_stmt_bind_param($stmt_goals, "ii", $user_id, $tenant_id);
@@ -194,8 +195,6 @@ if (!$db_error && $link) {
     }
 }
 
-// --- RENDER PAGE ---
-render:
 require_once(BASE_PATH . '/partials/header.php');
 ?>
 <style>
@@ -239,6 +238,7 @@ require_once(BASE_PATH . '/partials/header.php');
             <div class="bg-white p-6 rounded-lg shadow">
                 <div class="goal-header flex items-start cursor-pointer" onclick="toggleGoalView(this)">
                     <form method="post" class="mr-4 mt-1" onclick="event.stopPropagation();">
+                        <?php echo csrf_field(); ?>
                         <input type="hidden" name="goal_id" value="<?php echo $goal['id']; ?>">
                         <input type="hidden" name="is_completed" value="<?php echo $goal['is_completed']; ?>">
                         <button type="submit" name="toggle_complete_goal" class="w-6 h-6 border-2 <?php echo $goal['is_completed'] ? 'bg-purple-600 border-purple-600' : 'border-gray-300'; ?> rounded-md flex items-center justify-center">
@@ -263,6 +263,7 @@ require_once(BASE_PATH . '/partials/header.php');
                             <i data-lucide="pencil" class="w-5 h-5"></i>
                         </button>
                         <form method="post" onsubmit="return confirm('Are you sure?');">
+                            <?php echo csrf_field(); ?>
                             <input type="hidden" name="goal_id" value="<?php echo $goal['id']; ?>">
                             <button type="submit" name="delete_goal" class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-5 h-5"></i></button>
                         </form>
@@ -360,6 +361,7 @@ require_once(BASE_PATH . '/partials/header.php');
                 <div class="flex items-center space-x-2">
                     <button onclick="showEditCategory(<?php echo $cat['id']; ?>, '<?php echo htmlspecialchars(addslashes($cat['name'])); ?>')" class="text-gray-400 hover:text-blue-500"><i data-lucide="pencil" class="w-4 h-4"></i></button>
                     <form method="post" onsubmit="return confirm('Are you sure you want to delete this category?');">
+                        <?php echo csrf_field(); ?>
                         <input type="hidden" name="category_id" value="<?php echo $cat['id']; ?>">
                         <button type="submit" name="delete_category" class="text-gray-400 hover:text-red-500"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                     </form>
@@ -368,11 +370,13 @@ require_once(BASE_PATH . '/partials/header.php');
             <?php endforeach; ?>
         </div>
         <form method="post" id="add-category-form" class="flex space-x-2">
+            <?php echo csrf_field(); ?>
             <input type="text" name="name" class="flex-1 border rounded-md p-2" placeholder="New category name..." required>
             <button type="submit" name="add_category" class="bg-purple-600 text-white px-4 py-2 rounded-lg font-semibold">Add</button>
         </form>
         <form method="post" id="edit-category-form" class="hidden space-x-2">
-             <input type="hidden" name="category_id" id="edit_category_id">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="category_id" id="edit_category_id">
             <input type="text" name="name" id="edit_category_name" class="flex-1 border rounded-md p-2" required>
             <button type="submit" name="update_category" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold">Save</button>
             <button type="button" onclick="hideEditCategory()" class="bg-gray-200 px-4 py-2 rounded-lg">Cancel</button>
@@ -511,6 +515,7 @@ require_once(BASE_PATH . '/partials/header.php');
         <div id="ai-goals-preview" class="hidden">
             <h3 class="font-semibold text-gray-700 mb-2">Select goals to add</h3>
             <form id="ai-goals-save-form" method="POST">
+                <?php echo csrf_field(); ?>
                 <div id="ai-goals-list" class="space-y-2 mb-4 max-h-60 overflow-y-auto"></div>
                 <input type="hidden" name="selected_goals" id="ai-goals-selected">
                 <input type="hidden" id="ai-goals-data" value="[]">
