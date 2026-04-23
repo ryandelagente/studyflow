@@ -231,7 +231,7 @@ CREATE TABLE `notes` (
 INSERT INTO `notes` (`id`, `user_id`, `tenant_id`, `title`, `content`, `created_at`, `updated_at`) VALUES
 (1, 1, 0, 'Test', '<p>Test</p>', '2025-10-14 07:00:40', '2025-10-14 07:00:40'),
 (2, 1, 0, 'Test', '<p>Test</p>', '2025-10-14 07:01:43', '2025-10-14 07:01:43'),
-(3, 1, 0, 'Test', '<p>Shared Link: <a href=\"http://localhost/stud/pages/share.php\" target=\"_blank\" rel=\"noopener noreferrer\">http://localhost/stud/pages/share.php</a></p>', '2025-10-15 16:14:10', '2025-10-15 16:14:10');
+(3, 1, 0, 'Test', '<p>Test</p>', '2025-10-15 16:14:10', '2025-10-15 16:14:10');
 
 -- --------------------------------------------------------
 
