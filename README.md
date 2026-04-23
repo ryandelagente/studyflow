@@ -9,6 +9,7 @@ StudyFlow is a self-hosted web application that combines an AI tutor, rich note-
 **Contact:** ryan.delagente@chmsu.edu.ph · oliver.pavillar@chmsu.edu.ph
 
 **License:** [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+**DOI:** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19711045.svg)](https://doi.org/10.5281/zenodo.19711045)
 
 ---
 
@@ -190,6 +191,8 @@ If you use StudyFlow in your research, please cite the following article:
 > de la Gente, R. J., & Pavillar, O. D. (2026). StudyFlow: An AI-powered multi-tenant
 > productivity platform for students and educators. *Software Impacts*.
 > https://doi.org/10.1016/j.simpa.XXXX.XXXXXX   ← replace with actual DOI after acceptance
+>
+> **Software archive:** https://doi.org/10.5281/zenodo.19711045
 
 ---
 
