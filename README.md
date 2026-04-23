@@ -159,7 +159,6 @@ studyflow/
 ├── partials/             # Shared HTML fragments (header, sidebar, footer)
 ├── sql/                  # Database schema and incremental migrations
 │   └── productivity_hub.sql   # Full schema — import this on a fresh install
-├── stud/                 # See stud/README.md
 ├── config.php            # Database credentials, CSRF helpers, session helpers
 ├── secrets.example.php   # Template — copy to secrets.php and fill in keys
 ├── index.php             # Main dashboard (requires login)
@@ -168,6 +167,10 @@ studyflow/
 ├── logout.php            # Session teardown
 └── landing.php           # Public landing page
 ```
+
+### Repository structure notes
+
+As of v1.0.1, the repository contains a single canonical application at the root. An earlier `stud/` subdirectory from the development phase was removed because it duplicated the root application, used an older API integration, and risked confusing reviewers and contributors who clone the repository.
 
 ---
 
