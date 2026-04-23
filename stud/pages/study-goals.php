@@ -464,7 +464,7 @@ require_once(BASE_PATH . '/partials/header.php');
             TITLE: [Your revised concise title]
             DESCRIPTION: [Your detailed SMART description]`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })
@@ -518,7 +518,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Only return the bulleted list of milestones with suggested dates/weeks. Keep it brief and actionable.`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

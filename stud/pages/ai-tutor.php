@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     async function sendMessageToServer(message) {
-        const apiUrl = `<?php echo BASE_URL; ?>/api/gemini-api.php`;
+        const apiUrl = `<?php echo BASE_URL; ?>/api/ai-chat.php`;
         const typingIndicator = appendTypingIndicator();
         chatError.classList.add('hidden');
 

@@ -369,7 +369,7 @@ require_once(BASE_PATH . '/partials/header.php');
         try {
             const prompt = `Please break down this task into a concise, step-by-step bulleted list of actionable sub-tasks. Only return the list, nothing else. The task is: "${title}"`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })
@@ -425,7 +425,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Respond ONLY with one of the following exact words: HIGH, MEDIUM, or LOW. Do not add any punctuation, markdown, or extra text.`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })
@@ -491,7 +491,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Respond ONLY with a concise time estimate (e.g., "30 mins", "2 hours", "1-2 days"). Do not add any punctuation, markdown, or extra text. Keep it extremely brief.`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

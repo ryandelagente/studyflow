@@ -399,7 +399,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Write a very short, motivating 2-3 sentence morning briefing suggesting what they should focus on today based on priority and deadlines. Do not use formatting like bolding or bullet points. Keep it conversational.`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt, chat_id: null }) // We don't need to save this to chat history necessarily, but the API will just create a new session if null.
@@ -444,7 +444,7 @@ require_once(BASE_PATH . '/partials/header.php');
             "start_time" (string, exact format "YYYY-MM-DD HH:MM:00"),
             "end_time" (string, exact format "YYYY-MM-DD HH:MM:00")`;
 
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

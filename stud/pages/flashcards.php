@@ -477,7 +477,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Text: "${textToProcess}"`;
 
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })
@@ -606,7 +606,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Keep the hint to one or two short sentences.`;
 
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

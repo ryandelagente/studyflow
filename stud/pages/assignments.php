@@ -386,7 +386,7 @@ require_once(BASE_PATH . '/partials/header.php');
             
             Please return the outline in basic HTML format (using <h3>, <ul>, <li>, <strong>). Do not wrap the response in markdown backticks.`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })
@@ -433,7 +433,7 @@ require_once(BASE_PATH . '/partials/header.php');
             CRITICAL: You MUST respond ONLY with a valid JSON array of objects. Do not wrap it in markdown blockquotes like \`\`\`json. Return raw JSON.
             Each object must have exactly two keys: "title" (string) and "finish_by" (YYYY-MM-DD string). Example: [{"title": "Research", "finish_by": "2023-10-15"}]`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

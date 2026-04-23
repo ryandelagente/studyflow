@@ -1,7 +1,7 @@
 <?php
 // Initialize the session
 session_start();
- 
+
 // Check if the user is logged in, if not then deny access
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     http_response_code(401); // Unauthorized
@@ -9,8 +9,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 
-// File: /api/gemini-api.php
-// Purpose: Securely handle requests to the Gemini API and save chat history.
+// File: /stud/api/ai-chat.php
+// Purpose: Legacy AI chat endpoint — called the Google Gemini API directly.
+// NOTE: This file is part of the stud/ legacy snapshot (circa October 2025).
+//       The current application uses /api/ai-chat.php which calls OpenRouter instead.
 
 // --- Initial Setup and Error Checking ---
 header('Content-Type: application/json');
@@ -102,7 +104,7 @@ try {
     }
     $history = array_reverse($history);
     mysqli_stmt_close($stmt);
-    
+
     // --- Call Gemini API ---
     $api_url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=' . GEMINI_API_KEY;
     $data = ['contents' => $history];
@@ -126,14 +128,14 @@ try {
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('Failed to decode API response. Raw response: ' . $response);
     }
-    
+
     $model_message = $response_data['candidates'][0]['content']['parts'][0]['text'] ?? null;
 
     if ($http_code !== 200) {
         $error_details = $response_data['error']['message'] ?? 'Unknown API error.';
         throw new Exception('API Error (' . $http_code . '): ' . $error_details);
     }
-    
+
     if ($model_message === null) {
         // This handles cases where the API response is valid but contains no text, e.g., safety blocks.
         $model_message = "I'm sorry, but I can't provide a response to that.";

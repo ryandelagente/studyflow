@@ -291,7 +291,7 @@ require_once(BASE_PATH . '/partials/header.php');
             const prompt = `You are a spreadsheet expert. Convert the following plain English request into a standard Excel/Google Sheets formula: "${input}". 
             Respond ONLY with the formula string starting with '=', no explanation.`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })
@@ -336,7 +336,7 @@ require_once(BASE_PATH . '/partials/header.php');
         try {
             const prompt = `Analyze this range of spreadsheet data and provide a concise 2-sentence summary of the trends, averages, or notable patterns you see: \n${dataRows.join('\n')}`;
             
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

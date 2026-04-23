@@ -1,5 +1,5 @@
 <?php
-// File: /api/gemini-api.php
+// File: /api/ai-chat.php
 // Purpose: Handle AI chat requests via OpenRouter API and save chat history.
 
 session_start();

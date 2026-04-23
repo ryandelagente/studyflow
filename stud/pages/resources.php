@@ -286,7 +286,7 @@ require_once(BASE_PATH . '/partials/header.php');
                 prompt = `You are a helpful study assistant organizing files. Read the following document and suggest 3 to 6 relevant tags or categories that describe its content perfectly. Return ONLY a comma-separated list of tags (e.g., Biology, Final Exam, Chapter 4), with no extra text or markdown formatting. \n\nDocument Content:\n${safeContent}`;
             }
 
-            const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+            const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message: prompt })

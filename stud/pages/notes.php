@@ -356,7 +356,7 @@ require_once(BASE_PATH . '/partials/header.php');
             errorDiv.classList.add('hidden');
 
             try {
-                const response = await fetch('<?php echo BASE_URL; ?>/api/gemini-api.php', {
+                const response = await fetch('<?php echo BASE_URL; ?>/api/ai-chat.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ message: prompt })

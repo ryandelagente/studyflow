@@ -176,7 +176,7 @@ $fallback_models = [
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       <?php
       $features = [
-          ['page' => 'AI Tutor',    'desc' => 'Multi-turn chat with history',        'endpoint' => 'api/gemini-api.php',      'icon' => 'brain-circuit'],
+          ['page' => 'AI Tutor',    'desc' => 'Multi-turn chat with history',        'endpoint' => 'api/ai-chat.php',         'icon' => 'brain-circuit'],
           ['page' => 'Notes',       'desc' => 'Generate note content from a prompt', 'endpoint' => 'api/ai-assist.php',       'icon' => 'notebook-tabs'],
           ['page' => 'Flashcards',  'desc' => 'Generate Q&A pairs from a topic',     'endpoint' => 'api/ai-assist.php',       'icon' => 'layers'],
           ['page' => 'Assignments', 'desc' => 'Generate project descriptions',       'endpoint' => 'api/ai-assist.php',       'icon' => 'book-copy'],
