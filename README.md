@@ -15,19 +15,54 @@ StudyFlow is a self-hosted web application that combines an AI tutor, rich note-
 
 ## Features
 
-- **AI Tutor** — multi-turn chat powered by the OpenRouter API (model-agnostic)
-- **AI-assisted Notes** — rich-text note editor with inline AI suggestions via TinyMCE 6
-- **Flashcards** — create and review card decks with AI-generated hints
-- **To-Dos** — task lists with AI-powered breakdown suggestions
-- **Assignments** — assignment tracker with due dates and AI assistance
-- **Study Goals** — goal-setting and progress tracking with AI coaching
-- **Calendar** — monthly/weekly view with event management and AI scheduling tips
-- **Contacts** — personal address book
-- **Spreadsheets** — in-browser spreadsheet powered by Handsontable
-- **Code Editor** — browser-based IDE using Monaco Editor with AI code assistance
-- **Multi-tenant architecture** — each organisation or class is an isolated tenant; data never crosses tenant boundaries
-- **Access logs** — per-tenant audit trail of user activity
-- **CSRF protection** — token-based protection on every state-changing request
+### AI-Powered Productivity
+
+- **AI Tutor** — multi-turn conversational chat with persistent history; creates and resumes named sessions; sends the last 10 messages as context to the AI; powered by OpenRouter (model-agnostic, free tier available)
+- **AI-assisted Notes** — rich-text editor (TinyMCE 6) with an "Ask AI to Write" button that generates and inserts content directly into the editor; notes can be exported as `.txt` or `.html` and shared via link
+- **AI Flashcard Generation** — specify a topic and card count (5/10/15/20); AI generates question-answer pairs; preview before saving; interactive 3D flip-card study mode with progress tracking
+- **AI To-Do Generation** — describe a context and desired count (5/8/10); AI generates prioritised tasks (HIGH/MEDIUM/LOW); preview and bulk-add with one click
+- **AI Study-Goal Suggestions** — enter a subject and count (3/5); AI suggests goals with title and description; preview before adding; goals are organised into custom categories
+- **AI Assignment Descriptions** — AI can draft assignment summaries and descriptions on demand
+
+### Browser-Based Code Editor
+
+- **Monaco Editor** — the same engine behind VS Code; syntax highlighting, IntelliSense, bracket matching, minimap, multi-tab editing
+- **File Tree** — browse and open files from a workspace directory; expand/collapse folders; dirty-state indicator on unsaved tabs
+- **AI Chat Mode** — sidebar assistant with actions: chat, explain, fix, complete, review; context-aware with full file content
+- **AI Agent Mode** — describe a task in plain English; AI analyses the workspace and proposes multi-file changes (create, edit, delete); preview each change before applying individually or all at once
+
+### Core Productivity Tools
+
+- **Dashboard** — at-a-glance widgets for assignment completion, study-goal progress, to-do completion, daily study time (bar chart), recent tasks, and upcoming assignments
+- **To-Dos** — full CRUD with priority colour coding (red/yellow/green), deadlines, expandable descriptions, and completion toggles
+- **Study Goals** — full CRUD with custom categories, deadlines, and completion tracking
+- **Assignments** — full CRUD with status workflow (Pending/Started/Finished), team-member selection from contacts, study-goal linking, and TinyMCE rich-text descriptions
+- **Calendar** — weekly view with event CRUD, date navigation, and start/end time tracking
+- **Contacts** — full CRUD with name, title, email, phone, address, and notes fields; contacts populate the assignments team-member picker
+- **Spreadsheets** — create, edit, and delete spreadsheets; grid editor backed by Handsontable with JSON persistence
+- **Resources** — file upload with sanitised filenames, download, delete, and type-based viewing
+
+### Study Session Tracking
+
+- **Header Timer Widget** — start/pause/resume a study timer from any page; colour-coded state (grey = idle, red = running, yellow = paused); double-click to stop and save; elapsed time displayed as MM:SS or HH:MM:SS
+- **Dashboard Integration** — daily study hours visualised in a bar chart on the main dashboard
+
+### Sharing and Collaboration
+
+- **Share System** — share notes and assignments via generated links; access control per share
+- **Access Logs** — per-tenant audit trail with search, pagination, username, IP address, action, device info, and timestamp
+
+### Administration
+
+- **User Management** — admins manage users within their tenant; super admins manage all users across all tenants; add/delete users with role assignment
+- **API Settings** (super admin) — update the OpenRouter API key and model from the browser; quick-pick chips for popular free models; live model fetching from OpenRouter
+- **Billing and Plans** — four tiers (Free, Basic, Standard, Premium) with feature comparison, monthly/annual pricing, and upgrade buttons
+
+### Multi-Tenant SaaS Architecture
+
+- **Automatic Tenant Provisioning** — a new workspace is created on every registration; the registering user becomes the tenant admin
+- **Per-Tenant Data Isolation** — every database query filters by `tenant_id`; users only see their own tenant's data
+- **Role-Based Access Control** — three roles (member, admin, super_admin) with granular page-level restrictions
 
 ---
 
